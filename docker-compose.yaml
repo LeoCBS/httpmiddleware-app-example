@@ -1,0 +1,7 @@
+httpmiddleware-app-example:
+  image: leocbs/httpmiddleware-app-example:latest
+  links:
+    - mongo
+
+mongo:
+  image: mongo:6

@@ -1,2 +1,2 @@
 (unreleased)
- - Adding MongoDB example (@LeoCBS)
+ - Adding storage/mongo.go package (@LeoCBS)

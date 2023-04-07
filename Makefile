@@ -1,32 +1,16 @@
-VERSION ?= latest
-IMGDEV = leocbs/httpmiddleware-app-example:$(VERSION)
-RUN=docker run --rm $(IMGDEV)
-RUNTI=docker run -ti --rm $(IMGDEV)
-cov=coverage.out
-covhtml=coverage.html
+version ?= latest
+imgdev = leocbs/httpmiddleware-app-example:$(version)
+RUNCOMPOSE=docker-compose run --rm httpmiddleware-app-example
+
 
 imagedev:
-	docker build --target devimage . -t $(IMGDEV)
+	docker build --target devimage . -t $(imgdev)
 
-release:
-	git tag -a $(VERSION) -m "Generated release "$(VERSION)
-	git push origin $(VERSION)
-
-check: imagedev
-	$(RUN) go test -tags=unit -timeout 60s -race -coverprofile=$(cov) ./...
-
-coverage: check
-	$(RUN) go tool cover -html=$(cov) -o=$(covhtml)
-	xdg-open coverage.html
+check-integration: imagedev
+	$(RUNCOMPOSE) go test -tags=integration -timeout 60s -race ./...
 
 static-analysis: imagedev
-	$(RUN) golangci-lint run ./...
+	$(RUNCOMPOSE) golangci-lint run ./...
 
 modtidy:
 	go mod tidy
-
-fmt: imagedev
-	$(RUN) gofmt -w -s -l .
-
-shell: imagedev
-	$(RUNTI) sh
