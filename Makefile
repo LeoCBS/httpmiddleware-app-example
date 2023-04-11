@@ -14,3 +14,7 @@ static-analysis: imagedev
 
 modtidy:
 	go mod tidy
+
+run-compose: imagedev
+	docker-compose run --rm --service-ports --entrypoint "go run main.go" httpmiddleware-app-example
+

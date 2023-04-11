@@ -2,6 +2,8 @@ httpmiddleware-app-example:
   image: leocbs/httpmiddleware-app-example:latest
   links:
     - mongo
+  ports:
+    - "8080:8080"
 
 mongo:
   image: mongo:6
